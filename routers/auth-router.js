@@ -9,11 +9,11 @@ authRouter.post('/', loginMiddleware.isloginBodyValid, loginMiddleware.loginMidd
 
 authRouter.put('/update', updateMiddleware.userUpdate, tokenMiddleware.checkAccessToken, authController.updateUser);
 
-authRouter.delete('/logout', authController.logOut);
+authRouter.delete('/logout', tokenMiddleware.checkAccessToken, authController.logOut);
 
-//authRouter.post('/refresh', authController.refreshToken);
-
+authRouter.post('/refresh', tokenMiddleware.checkRefreshToken, authController.refreshToken);
 
 //authRouter.post('/password/forgot', loginMiddleware.sendMailForgotPassword, authController.sendMailForgotPassword);
 //authRouter.post('/password/forgot/set', loginMiddleware.setNewPasswordMiddleware, authController.setNewPassword);
+
 module.exports = authRouter;

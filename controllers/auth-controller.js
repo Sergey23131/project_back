@@ -28,10 +28,13 @@ module.exports = {
 
     logOut: async (req, res, next) => {
         try {
+            const user = req.user;
 
             await O_Auth.findOneAndDelete(req.token);
 
-            res.json('logOut');
+            //await emailService.sendMail(user.email, LOGOUT, {userName: user.name});
+
+            res.json('You made logOut!');
         } catch (e) {
             next(e);
         }
@@ -66,6 +69,24 @@ module.exports = {
 
     },
 
+    refreshToken: async (req, res, next) => {
+        try {
+            const tokenPair = jwtService.generateTokenPair();
+
+            await O_Auth.create({
+                ...tokenPair,
+                user_id: req.user._id
+            });
+
+            res.json({
+                user: req.user,
+                ...tokenPair
+            });
+
+        } catch (e) {
+            next(e);
+        }
+    },
 
     /*   sendMailForgotPassword: async (req, res, next) => {
            try {
