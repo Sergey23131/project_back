@@ -17,7 +17,7 @@ module.exports = {
                 throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
 
-            const {password}= req.body;
+           const {password}= req.body;
             const hashPassword = loginInfo.password;
 
             await passwordService.compare(password, hashPassword);
@@ -37,7 +37,6 @@ module.exports = {
             if (error) {
                 throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
-
 
             req.body = value;
 

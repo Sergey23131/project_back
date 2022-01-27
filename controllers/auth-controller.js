@@ -7,6 +7,7 @@ module.exports = {
     logUser: async (req, res, next) => {
         try {
 
+
             const tokenPair = jwtService.generateTokenPair();
 
             await O_Auth.create({
