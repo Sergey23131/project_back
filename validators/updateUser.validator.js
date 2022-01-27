@@ -7,12 +7,9 @@ const updateUserValidator = Joi.object({
         .max(30)
         .trim()
         .required(),
-    phoneNumber: Joi.string()
-        .alphanum()
-        .min(10)
-        .max(16)
-        .trim()
-        .required()
+    phoneNumber: Joi
+        .number()
+        .required(),
 });
 
 module.exports = {

@@ -9,6 +9,7 @@ const passwordService = require('../services/password.service');
 module.exports = {
     loginMiddleware: async (req, res, next) => {
         try {
+
             const {email} = req.body;
 
             const loginInfo = await Users.findOne({email});
@@ -45,6 +46,7 @@ module.exports = {
             next(e);
         }
     },
+
 
     /*    sendMailForgotPassword: async (req, res, next) => {
             try {

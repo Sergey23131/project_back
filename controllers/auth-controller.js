@@ -2,12 +2,11 @@ const O_Auth = require('../database/O_Auth');
 const Users = require('../database/Users');
 
 const {errors_code, errors_massage} = require('../errors');
+const jwtService = require("../services/token.service");
 
 module.exports = {
     logUser: async (req, res, next) => {
         try {
-
-
             const tokenPair = jwtService.generateTokenPair();
 
             await O_Auth.create({
@@ -39,35 +38,34 @@ module.exports = {
 
     },
 
-    updateUser: (req, res, next) => {
+    updateUser: async (req, res, next) => {
         try {
 
+            const id = req.user.id;
 
-            res.json('');
-        } catch (e) {
-            next(e);
-        }
+            await Users.findByIdAndUpdate(id, req.body);
 
-    },
-
-    refreshToken: async (req, res, next) => {
-        try {
             const tokenPair = jwtService.generateTokenPair();
 
             await O_Auth.create({
                 ...tokenPair,
-                user_id: req.user._id
+                user_id: id
             });
+
+            const oneUser = await Users.findById(id).select('-password');
+
+            // await emailService.sendMail(oneUser.email, UPDATE, {userName: oneUser.name});
 
             res.json({
-                user: req.user,
+                user: oneUser,
                 ...tokenPair
             });
-
         } catch (e) {
             next(e);
         }
+
     },
+
 
     /*   sendMailForgotPassword: async (req, res, next) => {
            try {
