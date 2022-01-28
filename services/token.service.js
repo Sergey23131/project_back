@@ -44,7 +44,7 @@ module.exports = {
         let secretWord;
 
         switch (actionTokenType) {
-            case FORGOT_PASSWORD:
+            case FORGOT:
                 secretWord = JWT_FORGOT_PASSWORD;// TODO from config
                 break;
             default:

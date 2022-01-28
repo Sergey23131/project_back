@@ -3,7 +3,7 @@ const {ErrorHandler, errors_code, errors_massage} = require('../errors');
 
 module.exports = {
     hash: (password) => {
-        bcrypt.hash(password, 10);
+       return  bcrypt.hash(password, 10);
     },
 
     compare: async (password, hashPassword) => {

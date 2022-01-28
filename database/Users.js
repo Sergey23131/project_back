@@ -1,7 +1,6 @@
 const {Schema, model} = require('mongoose');
 const userRoles = require('../configs/user_roles');
-const passwordService = require('../services/password.service');
-const {number} = require("joi");
+const passwordService = require('../services');
 
 const userSchema = new Schema({
 
@@ -54,7 +53,7 @@ userSchema.statics = {
     async updateHashPassword(user, newPassword) {
         const password = await passwordService.hash(newPassword);
 
-        await this.updateOne({_id: user.user_id.id}, {$set: {password}});
+        await this.updateOne({_id: user.user_id.id}, {$set: { password }});
     }
 };
 

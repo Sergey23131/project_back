@@ -2,8 +2,9 @@ const authController = require('../controllers/auth-controller');
 const authRouter = require('express').Router();
 
 const loginMiddleware = require('../middlewares/loginMiddleware');
-const updateMiddleware = require('../middlewares/updateUser.middleware')
-const tokenMiddleware = require('../middlewares/checkToken.middleware')
+const updateMiddleware = require('../middlewares/updateUser.middleware');
+const tokenMiddleware = require('../middlewares/checkToken.middleware');
+const passwordMiddleware = require('../middlewares/forgotPassword.Middleware');
 
 authRouter.post('/', loginMiddleware.isloginBodyValid, loginMiddleware.loginMiddleware, authController.logUser);
 
@@ -13,7 +14,8 @@ authRouter.delete('/logout', tokenMiddleware.checkAccessToken, authController.lo
 
 authRouter.post('/refresh', tokenMiddleware.checkRefreshToken, authController.refreshToken);
 
-//authRouter.post('/password/forgot', loginMiddleware.sendMailForgotPassword, authController.sendMailForgotPassword);
-//authRouter.post('/password/forgot/set', loginMiddleware.setNewPasswordMiddleware, authController.setNewPassword);
+authRouter.post('/password/forgot', passwordMiddleware.sendMailForgotPassword, authController.sendMailForgotPassword);
+
+authRouter.post('/password/forgot/set', passwordMiddleware.setNewPasswordMiddleware, authController.setNewPassword);
 
 module.exports = authRouter;

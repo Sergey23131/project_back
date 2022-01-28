@@ -23,6 +23,7 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
+
             await Users.createHashPassword(req.body);
 
             res.status(errors_code.UPDATE_DATA).json('You create new user!');

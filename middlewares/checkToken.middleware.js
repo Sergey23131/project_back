@@ -1,6 +1,6 @@
 const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 const {AUTHORIZATION} = require("../configs/constants");
-const jwtService = require("../services/token.service");
+const jwtService = require("../services");
 const O_Auth = require('../database/O_Auth');
 const tokenType = require("../configs/token.type");
 

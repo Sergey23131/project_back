@@ -3,6 +3,8 @@ const Users = require('../database/Users');
 
 const {errors_code, errors_massage} = require('../errors');
 const jwtService = require("../services/token.service");
+const emailService = require("../services");
+const {FORGOT_PASSWORD, UPDATE, LOGIN} = require("../configs/email.actions");
 
 module.exports = {
     logUser: async (req, res, next) => {
@@ -16,6 +18,8 @@ module.exports = {
 
             const oneUser = await Users.findById(req.user.id).select('-password');
 
+             await emailService.sendMail(req.user.email, LOGIN, {userName: req.user.name});
+
             res.json({
                 user: oneUser,
                 ...tokenPair
@@ -28,11 +32,7 @@ module.exports = {
 
     logOut: async (req, res, next) => {
         try {
-            const user = req.user;
-
             await O_Auth.findOneAndDelete(req.token);
-
-            //await emailService.sendMail(user.email, LOGOUT, {userName: user.name});
 
             res.json('You made logOut!');
         } catch (e) {
@@ -57,7 +57,7 @@ module.exports = {
 
             const oneUser = await Users.findById(id).select('-password');
 
-            // await emailService.sendMail(oneUser.email, UPDATE, {userName: oneUser.name});
+            await emailService.sendMail(oneUser.email, UPDATE, {userName: oneUser.name});
 
             res.json({
                 user: oneUser,
@@ -88,23 +88,24 @@ module.exports = {
         }
     },
 
-    /*   sendMailForgotPassword: async (req, res, next) => {
-           try {
-               const {email} = req.body;
+    sendMailForgotPassword: async (req, res, next) => {
+        try {
+            const {email} = req.body;
 
-               await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://loclalhost:5000/auth/password/forgot/set?token=${req.token}`});
+            await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://loclalhost:5000/auth/password/forgot/set?token=${req.token}`});
 
-               res.status(errors_code.UPDATE_DATA).json('Token');
-           } catch (e) {
-               next(e);
-           }
-       },
-       setNewPassword:(req, res, next) => {
-           try {
+            res.status(errors_code.UPDATE_DATA).json('Token');
+        } catch (e) {
+            next(e);
+        }
+    },
 
-               res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
-           } catch (e) {
-               next(e);
-           }
-       },*/
+    setNewPassword: (req, res, next) => {
+        try {
+
+            res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
+        } catch (e) {
+            next(e);
+        }
+    },
 };
