@@ -1,7 +1,5 @@
 const {Schema, model} = require('mongoose');
 
-const {FORGOT} = require('../configs/token.type');
-
 const actionTokenSchema = new Schema({
     token: {
         type: String,
@@ -11,7 +9,7 @@ const actionTokenSchema = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'user'
+        ref: 'users'
     },
 }, {timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}});
 

@@ -1,9 +1,9 @@
-const passwordValidator = require("../validators/password.validator");
-const emailValidator = require("../validators/email.validator");
-
 const Users = require('../database/Users');
 const O_Auth = require('../database/O_Auth');
-const ActionToken = require('../database/ActionToken')
+const ActionToken = require('../database/ActionToken');
+
+const passwordValidator = require("../validators/password.validator");
+const emailValidator = require("../validators/email.validator");
 
 const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 const {jwtService} = require("../services");
@@ -56,11 +56,13 @@ module.exports = {
 
             const actionToken = req.get(AUTHORIZATION);
 
+
             if (!actionToken) {
                 throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
             }
 
             await jwtService.verifyToken(actionToken, FORGOT);
+
 
             const user = await ActionToken.findOne({token: actionToken});
 

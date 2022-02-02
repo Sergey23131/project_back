@@ -1,9 +1,9 @@
 const {Schema, model} = require('mongoose');
+
 const userRoles = require('../configs/user_roles');
 const {passwordService} = require('../services');
 
 const userSchema = new Schema({
-
     name: {
         type: String,
         required: true,

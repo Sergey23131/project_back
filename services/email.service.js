@@ -1,9 +1,9 @@
 const path = require("path");
 const nodemailer = require('nodemailer');
 const EmailTemplates = require('email-templates');
+const allTemplates = require('../emailTemplates');
 
 const {NO_REPLY_EMAIL_PASSWORD, NO_REPLY_EMAIL} = require('../configs/config');
-const allTemplates = require('../emailTemplates');
 const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 const templateParser = new EmailTemplates({
