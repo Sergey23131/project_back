@@ -1,4 +1,4 @@
-const passwordValidator = require("../validators/email.validator");
+const passwordValidator = require("../validators/password.validator");
 const emailValidator = require("../validators/email.validator");
 
 const Users = require('../database/Users');
@@ -6,7 +6,7 @@ const O_Auth = require('../database/O_Auth');
 const ActionToken = require('../database/ActionToken')
 
 const {ErrorHandler, errors_massage, errors_code} = require("../errors");
-const jwtService = require("../services");
+const {jwtService} = require("../services");
 
 const {AUTHORIZATION} = require("../configs/constants");
 const {FORGOT} = require("../configs/token.type");
@@ -20,7 +20,7 @@ module.exports = {
             const {error, value} = emailValidator.userEmailValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
+                throw new ErrorHandler(errors_massage.NOT_VALID_EMAIL, errors_code.NOT_VALID);
             }
 
             const user = await Users.findOne({email});
@@ -33,7 +33,6 @@ module.exports = {
 
             await ActionToken.create({
                 token: actionToken,
-                token_type: FORGOT,
                 user_id: user._id
             });
 
@@ -49,11 +48,12 @@ module.exports = {
         try {
             const {password} = req.body;
 
-            const {error, value} = passwordValidator.userEmailValidator.validate(req.body);
+            const {error, value} = passwordValidator.userPasswordValidator.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
+
             const actionToken = req.get(AUTHORIZATION);
 
             if (!actionToken) {

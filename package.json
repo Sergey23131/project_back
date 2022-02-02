@@ -22,7 +22,6 @@
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12",
     "@types/email-templates": "^8.0.4",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/nodemailer": "^6.4.4",

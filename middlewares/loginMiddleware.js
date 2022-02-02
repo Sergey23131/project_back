@@ -3,7 +3,7 @@ const Users = require('../database/Users');
 const loginValidator = require('../validators/login.validator');
 
 const {errors_massage, errors_code, ErrorHandler} = require('../errors');
-const passwordService = require('../services');
+const {passwordService} = require('../services');
 
 module.exports = {
     loginMiddleware: async (req, res, next) => {
@@ -17,7 +17,7 @@ module.exports = {
                 throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
 
-           const {password}= req.body;
+            const {password} = req.body;
             const hashPassword = loginInfo.password;
 
             await passwordService.compare(password, hashPassword);

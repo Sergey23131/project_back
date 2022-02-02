@@ -34,9 +34,9 @@ module.exports = {
 
     deleteUser: async (req, res, next) => {
         try {
-            const {user_id} = req.user;
+            const {id} = req.user;
 
-            await Users.findById(user_id);
+            await Users.findByIdAndDelete(id);
 
             res.json(errors_code.REMOVE).json('User was removed!');
 

@@ -1,3 +1,12 @@
-.footer{
-    border: 2px solid green;
+body{
+    background-color: lightblue;
+    color: white;
+    width: 300px;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+
+}
+.box{
+    padding-top: 5px;
+    padding-left: 20px;
+    font-size: 20px;
 }

@@ -1,6 +1,6 @@
 const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 const {AUTHORIZATION} = require("../configs/constants");
-const jwtService = require("../services");
+const {jwtService} = require("../services");
 const O_Auth = require('../database/O_Auth');
 const tokenType = require("../configs/token.type");
 
@@ -25,6 +25,8 @@ module.exports = {
 
             req.user = tokenResponse.user_id;
             req.token = token;
+            req.tokenID = tokenResponse;
+
             next();
         } catch (e) {
             next(e);

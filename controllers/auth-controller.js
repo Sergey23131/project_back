@@ -2,8 +2,7 @@ const O_Auth = require('../database/O_Auth');
 const Users = require('../database/Users');
 
 const {errors_code, errors_massage} = require('../errors');
-const jwtService = require("../services/token.service");
-const emailService = require("../services");
+const {emailService, jwtService} = require("../services");
 const {FORGOT_PASSWORD, UPDATE, LOGIN} = require("../configs/email.actions");
 
 module.exports = {
@@ -18,7 +17,7 @@ module.exports = {
 
             const oneUser = await Users.findById(req.user.id).select('-password');
 
-             await emailService.sendMail(req.user.email, LOGIN, {userName: req.user.name});
+            await emailService.sendMail(req.user.email, LOGIN, {userName: req.user.name});
 
             res.json({
                 user: oneUser,
@@ -32,7 +31,10 @@ module.exports = {
 
     logOut: async (req, res, next) => {
         try {
-            await O_Auth.findOneAndDelete(req.token);
+
+            const id = req.user.id
+
+            await O_Auth.findOneAndDelete({id});
 
             res.json('You made logOut!');
         } catch (e) {
@@ -92,7 +94,7 @@ module.exports = {
         try {
             const {email} = req.body;
 
-            await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://loclalhost:5000/auth/password/forgot/set?token=${req.token}`});
+            await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://localhost:3000/setForgotPassword/set?token=${req.token}`});
 
             res.status(errors_code.UPDATE_DATA).json('Token');
         } catch (e) {

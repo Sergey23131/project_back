@@ -8,12 +8,6 @@ const actionTokenSchema = new Schema({
         required: true,
         trim: true
     },
-    token_type: {
-        type: String,
-        required: true,
-        enum: Object.values(FORGOT),
-        trim: true
-    },
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
